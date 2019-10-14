@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather Widget</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="weather-widget">
+        <a href="#" class="weather-widget__settings" id="settings"><img src="img/settings.svg"></a>
+        <div id="city">
+
+        </div>
+        
+        <div id="weather" class="weather-widged__curent-weather">
+           
+        </div>
+    </div>
+
+
+    <div class="overlay" id="overlay">
+        <div class="modal" id="towns">
+            <div class="modal__close" id="close">&times;</div>
+            <form class="settings-town" action="#" id="settings-town">
+                <div id="list-town">
+
+                </div>
+                <input type="submit" class="submit" value="Подтвердить">
+            </form>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
