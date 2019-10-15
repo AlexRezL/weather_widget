@@ -8,15 +8,22 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="weather-widget">
-        <a href="#" class="weather-widget__settings" id="settings"><img src="img/settings.svg"></a>
-        <div id="city">
 
+    <div class="wrapper">
+        <div class="weather-widget">
+            <a href="#" class="weather-widget__settings" id="settings"><img src="img/settings.svg"></a>
+            <div id="city" class="city">
+    
+            </div>
+            
+            <div id="weather" class="weather-widged__curent-weather">
+                
+            
         </div>
-        
-        <div id="weather" class="weather-widged__curent-weather">
-           
-        </div>
+
+        <video autoplay="autoplay" loop="loop" class="video-widget">
+            <source src="/videos/widget.mp4" type="video/mp4; codecs=avc1.42E01E, mp4a.40.2"'>
+        </video>
     </div>
 
 
@@ -33,5 +40,7 @@
     </div>
 
     <script src="js/script.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 </body>
 </html>

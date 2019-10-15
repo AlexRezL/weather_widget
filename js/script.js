@@ -7,6 +7,7 @@ let uniqueKey = "c3c9bc2dbd005c196bdc734eb55c6111";
 let xhr = new XMLHttpRequest();
 let cities = new Map();
 
+let weather = document.getElementById("weather");
 ready(() => {
     fetch("current.city.list.json")
         .then(  
@@ -36,10 +37,9 @@ ready(() => {
                         checkboxList.innerHTML = checkboxs;
                     }
                     
-                    list.firstChild.setAttribute('class', list.firstChild.getAttribute('class') + " active");
-                    list.firstChild.style.display = "block";
-                    requestAnimationFrame(() => list.firstChild.style.opacity = 1);
+                    $('.city .current-city').eq(0).addClass('active').fadeIn(1000);
                     getRequest(list.firstChild.getAttribute('value'));
+                    $('.weather-widged__curent-weather').addClass('active').fadeIn(1000);
                     setInterval('blockAnimate();', 5000);
                 });  
             }  
@@ -74,28 +74,23 @@ function blockAnimate() {
     let length = document.querySelectorAll('.current-city').length - 1;
 
     let list = document.querySelectorAll('.current-city');
-    
     for (let i = 0; i <= length; i++) {
         if (i < length && list[i].classList.contains('active')) {
-            requestAnimationFrame(() => list[i].style.opacity = 0);
-            list[i].remove('active');
-            list[i + 1].setAttribute('class', list[i + 1].getAttribute('class') + " active");
-            list[i + 1].style.display = "block";
-            requestAnimationFrame(() => list[i + 1].style.opacity = 1);
-            getRequest(list[i + 1].getAttribute('value'));
+            $('.weather-widged__curent-weather').removeClass('active').fadeOut(1000);
+            $(list[i]).removeClass('active').fadeOut(1000);
+            $(list[i + 1]).addClass('active').fadeIn(1000);
+            setTimeout(getRequest, 1000, list[i + 1].getAttribute('value'));
+            $('.weather-widged__curent-weather').addClass('active').fadeIn(1000);
             return false;
         } else if (i == length) {
             cur = document.getElementById('city');
             if (cur.childElementCount <= 1) {
-                list[i].remove('active');
-                requestAnimationFrame(() => list[i].style.opacity = 0);
+                $(list[i]).removeClass('active').fadeOut(1000);
                 cur.innerHTML = fillCities();
             }
             
             list = document.querySelectorAll('.current-city')
-            list[0].setAttribute('class', list[0].getAttribute('class') + " active");
-            list[0].style.display = "block";
-            requestAnimationFrame(() => list[0].style.opacity = 1);
+            $(list[0]).addClass('active').fadeIn(1000);
             getRequest(list[0].getAttribute('value'));
             return false;
         }
@@ -111,8 +106,8 @@ function getRequest(id) {
     xhr.onload = function() {
         data = JSON.parse(xhr.responseText);
         let output = '';
-        output += '<div class="weather-widget__element">' 
-                        + Math.round(data.main.temp - 273) 
+        output += '<div id="a" class="weather-widget__element">' 
+                        + Math.round(data.main.temp - 273)
                         + '&#176C'
                         + '<img src="https://openweathermap.org/img/wn/' 
                         + data.weather[0].icon 
@@ -121,18 +116,18 @@ function getRequest(id) {
         output += '<div class="weather-widget__wrapper">'
         output += '<div class="weather-widget__element weather-widget__element_normalize">'
                         + '<img src="/img/water.png" class="icon_normalize">'
-                        + data.main.humidity 
+                        + data.main.humidity
                         + '%</div>';
         output += '<div class="weather-widget__element weather-widget__element_normalize">'
                         + '<img src="/img/wind.svg" class="icon_normalize">'
-                        + data.wind.speed 
+                        + data.wind.speed
                         + 'м/с</div>';
         output += '<div class="weather-widget__element weather-widget__element_normalize">' 
                         + '<img src="/img/pressure.svg" class="icon_normalize">'
-                        + Math.round(data.main.pressure * 0.00750063755419211 * 100) 
+                        + Math.round(data.main.pressure * 0.00750063755419211 * 100)
                         + 'мм.рт.ст</div>';
-        output += '</div>'
-        let weather = document.getElementById("weather");
+        output += '</div>';
+
         weather.innerHTML = output;
     };
     xhr.send();

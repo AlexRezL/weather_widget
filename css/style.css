@@ -8,14 +8,11 @@
 }
 
 .current-city {
+    position: absolute;
     display: none;
+    width: 65%;
     font-size: 18px;
     border-bottom: 1px solid black;
-}
-
-.active {
-    opacity: 0;
-    transition: 1s all;
 }
 
 .weather-widget {
@@ -24,14 +21,13 @@
     height: 230px;
     display: flex;
     flex-direction: column;
-    margin: 0 auto;
     padding: 30px 30px 40px 30px;
     background: #c6e5ff;
 }
 
 .weather-widged__curent-weather {
+    display: none;
     margin-top: 20px;
-    display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: flex-start;
@@ -123,4 +119,13 @@
     display: none;
     opacity: 0;
     transition: 1s;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.video-widget {
+    margin-left: 10px;
 }
