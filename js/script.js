@@ -37,9 +37,10 @@ ready(() => {
                         checkboxList.innerHTML = checkboxs;
                     }
                     
-                    $('.city .current-city').eq(0).addClass('active').fadeIn(1000);
+                    $('.city .current-city').eq(0).addClass('active expandUp').fadeIn(1000);
                     getRequest(list.firstChild.getAttribute('value'));
-                    $('.weather-widged__curent-weather').addClass('active').fadeIn(1000);
+                    $('.temperature').addClass('active').fadeIn(1000);
+                    $('.numbers').addClass('active expandUpDown').fadeIn(1000);
                     setInterval('blockAnimate();', 5000);
                 });  
             }  
@@ -76,11 +77,11 @@ function blockAnimate() {
     let list = document.querySelectorAll('.current-city');
     for (let i = 0; i <= length; i++) {
         if (i < length && list[i].classList.contains('active')) {
-            $('.weather-widged__curent-weather').removeClass('active').fadeOut(1000);
-            $(list[i]).removeClass('active').fadeOut(1000);
-            $(list[i + 1]).addClass('active').fadeIn(1000);
+            $('.temperature').removeClass('active').fadeOut(1000);
+            $(list[i]).removeClass('active expandUp').addClass('slideDown').fadeOut(1000);
+            $('.numbers').removeClass('active expandUpDown').addClass('slideDownNum').fadeOut(1000);
             setTimeout(getRequest, 1000, list[i + 1].getAttribute('value'));
-            $('.weather-widged__curent-weather').addClass('active').fadeIn(1000);
+            setTimeout(show, 1000, list[i + 1]);
             return false;
         } else if (i == length) {
             cur = document.getElementById('city');
@@ -106,29 +107,27 @@ function getRequest(id) {
     xhr.onload = function() {
         data = JSON.parse(xhr.responseText);
         let output = '';
-        output += '<div id="a" class="weather-widget__element">' 
-                        + Math.round(data.main.temp - 273)
-                        + '&#176C'
+        let temp = '';
+        temp += '<span class="rot">' + Math.round(data.main.temp - 273)
+                        + '&#176C' + '</span>'
                         + '<img src="https://openweathermap.org/img/wn/' 
                         + data.weather[0].icon 
-                        + '@2x.png">'
-                        + '</div>';
-        output += '<div class="weather-widget__wrapper">'
-        output += '<div class="weather-widget__element weather-widget__element_normalize">'
-                        + '<img src="/img/water.png" class="icon_normalize">'
-                        + data.main.humidity
-                        + '%</div>';
-        output += '<div class="weather-widget__element weather-widget__element_normalize">'
-                        + '<img src="/img/wind.svg" class="icon_normalize">'
-                        + data.wind.speed
-                        + 'м/с</div>';
-        output += '<div class="weather-widget__element weather-widget__element_normalize">' 
-                        + '<img src="/img/pressure.svg" class="icon_normalize">'
-                        + Math.round(data.main.pressure * 0.00750063755419211 * 100)
-                        + 'мм.рт.ст</div>';
-        output += '</div>';
+                        + '@2x.png" class="clouds">';
 
-        weather.innerHTML = output;
+        output += '<span class="number">' 
+                        + data.main.humidity
+                        + '%</span>';
+        output += '<span class="number">'
+                        + data.wind.speed
+                        + 'м/с</span>';
+        output += '<span class="number">'
+                        + Math.round(data.main.pressure * 0.00750063755419211 * 100)
+                        + 'мм.рт.ст</span>';;
+
+        let temperature = document.getElementById('temperature');
+        temperature.innerHTML = temp;
+        let numbers = document.getElementById('numbers');
+        numbers.innerHTML = output;
     };
     xhr.send();
 }
@@ -166,4 +165,10 @@ function changeTowns() {
     listTowns.innerHTML = fillCities();
     listTowns.firstChild.style.display = "block";
     requestAnimationFrame(() => listTowns.firstChild.style.opacity = 1);
+}
+
+function show(el1) {
+    $('.temperature').addClass('active').fadeIn(1000);
+    $(el1).addClass('active expandUp').removeClass('slideDown').fadeIn(1000);  
+    $('.numbers').addClass('active expandUpDown').removeClass('slideDownNum').fadeIn(1000);        
 }
